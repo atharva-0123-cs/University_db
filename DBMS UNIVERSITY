@@ -1,0 +1,183 @@
+
+-- instructor 
+CREATE TABLE Instructor (
+    instructor_id INT PRIMARY KEY,
+    name VARCHAR(200),
+    department varchar(200),
+    salary float
+);
+INSERT INTO Instructor (instructor_id, name, department, salary) VALUES
+(1, 'Rahul Sharma', 'computer', 60000.00),
+(2, 'Priyal Patel', 'computer', 25000.00),
+(3, 'Amit Gupta', 'computer', 10000.00),
+(4, 'Anjali Singh', 'it', 60000.00),
+(5, 'Vikram Reddy', 'it', 25000.00),
+(6, 'Sunita Desai', 'it', 10000.00),
+(7, 'Ravi Nair', 'mechanical', 60000.00),
+(8, 'Sneha Patil', 'mechanical', 25000.00),
+(9, 'Karan Mehta', 'mechanical', 10000.00),
+(10, 'Neha Chakraborty', 'electrical', 60000.00),
+(11, 'Rushi Jadav', 'electrical', 25000.00),
+(12, 'Amit Raut', 'electrical', 10000.00),
+(13, 'Komal Shinde', 'entc', 60000.00),
+(14, 'Rohit Limkar', 'entc', 25000.00),
+(15, 'Ravi Nair', 'entc', 10000.00);
+
+
+
+-- course
+
+
+CREATE TABLE Course (
+    course_id INT PRIMARY KEY,
+    title VARCHAR(255) ,
+    dept_name VARCHAR(200),
+    credits INT 
+);
+
+INSERT INTO Course (course_id, title, dept_name, credits) VALUES
+(101, 'Introduction to Programming', 'computer', 3),
+(102, 'Digital Logic Design', 'computer', 4),
+(103, 'Mechanics of Materials', 'mechanical', 3),
+(104, 'Database Management Systems', 'it', 4),
+(105, 'Circuit Theory', 'electrical', 3),
+(106, 'Signal Processing', 'electrical', 3),
+(107, 'Control Systems', 'electrical', 4),
+(108, 'Machine Learning', 'computer', 4),
+(109, 'Microprocessors', 'computer', 3),
+(110, 'Communication Systems', 'entc', 3);
+
+
+
+
+
+-- department
+
+CREATE TABLE Department (
+    name varchar(20) PRIMARY KEY,
+    building VARCHAR(255) NOT NULL,
+    budget DECIMAL(10, 2) NOT NULL
+);
+
+INSERT INTO Department (name, building, budget) VALUES
+('computer', 'D1', 1000000.00),
+('IT', 'D1', 750000.00),
+('Mechanical', 'D1', 1200000.00),
+('electrical', 'D2', 900000.00),
+('Entc', 'D2', 800000.00);
+
+
+
+
+
+-- section
+
+CREATE TABLE Section (
+    section_id INT PRIMARY KEY,
+    course_id INT,
+    building VARCHAR(255) ,
+    semester ENUM('3', '4') NOT NULL,
+    year INT NOT NULL,
+    room_no INT NOT NULL,
+    timeslot INT NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES Course(course_id)
+);
+
+INSERT INTO Section (section_id, course_id, building, semester, year, room_no, timeslot) VALUES
+(1, 101, 'D1', '3', 2019, 501, 1),
+(2, 102, 'D1', '3', 2020, 502, 2),
+(3, 103, 'D1', '4', 2021, 101, 3),
+(4, 104, 'D2', '3', 2022, 302, 4),
+(5, 105, 'D2', '4', 2023, 301, 5),
+(6, 106, 'D1', '3', 2019, 401, 6),
+(7, 107, 'D2', '4', 2020, 201, 7),
+(8, 108, 'D1', '3', 2021, 402, 8),
+(9, 109, 'D1', '4', 2022, 102, 9),
+(10, 110, 'D2', '3', 2023, 202, 10);
+
+
+
+
+
+-- teaches
+
+CREATE TABLE Teaches (
+    id INT PRIMARY KEY,
+    section_id INT,
+    course_id INT,
+    semester ENUM('3', '4') NOT NULL,
+    year INT NOT NULL,
+    FOREIGN KEY (section_id) REFERENCES Section(section_id),
+    FOREIGN KEY (course_id) REFERENCES Course(course_id)
+);
+
+INSERT INTO Teaches (id, section_id, course_id, semester, year) VALUES
+(1, 1, 101, '3', 2019),
+(2, 2, 102, '3', 2020),
+(3, 3, 103, '4', 2021),
+(4, 4, 104, '3', 2022),
+(5, 5, 105, '4', 2023),
+(6, 6, 106, '3', 2019),
+(7, 7, 107, '4', 2020),
+(8, 8, 108, '3', 2021),
+(9, 9, 109, '4', 2022),
+(10, 10, 110, '3', 2023);
+
+
+
+
+
+-- student
+CREATE TABLE Student (
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    department ENUM('computer', 'electrical', 'mechanical', 'it', 'entc') NOT NULL,
+    total_credit INT NOT NULL
+);
+
+INSERT INTO Student (id, name, department, total_credit) VALUES
+(1, 'Amit Kumar', 'computer', 120),
+(2, 'Sneha Sharma', 'computer', 105),
+(3, 'Rahul Singh', 'computer', 90),
+(4, 'Priya Patel', 'electrical', 130),
+(5, 'Kiran Verma', 'electrical', 115),
+(6, 'Deepak Kumar', 'electrical', 80),
+(7, 'Anita Mehta', 'mechanical', 110),
+(8, 'Vikram Singh', 'mechanical', 95),
+(9, 'Pooja Gupta', 'mechanical', 70),
+(10, 'Neha Choudhary', 'it', 125),
+(11, 'Rajat Kapoor', 'it', 100),
+(12, 'Kavita Sharma', 'it', 85),
+(13, 'Manish Desai', 'entc', 120),
+(14, 'Smita Shah', 'entc', 105),
+(15, 'Prakash Joshi', 'entc', 90);
+
+select * from student;
+
+
+
+
+-- takes
+
+CREATE TABLE Takes (
+    id INT,
+    course_id INT,
+    section_id INT,
+    semester ENUM('3', '4') NOT NULL,
+    grade ENUM('A', 'B', 'C') NOT NULL,
+    year INT NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES Course(course_id),
+    FOREIGN KEY (section_id) REFERENCES Section(section_id)
+);
+
+INSERT INTO Takes (id, course_id, section_id, semester, grade, year) VALUES
+(1, 101, 1, '3', 'A', 2020),
+(2, 102, 2, '3', 'B', 2020),
+(3, 103, 3, '4', 'B', 2021),
+(4, 104, 4, '3', 'C', 2022),
+(5, 105, 5, '4', 'A', 2023),
+(6, 106, 6, '3', 'B', 2020),
+(7, 107, 7, '4', 'C', 2020),
+(8, 108, 8, '3', 'A', 2021),
+(9, 109, 9, '4', 'B', 2022),
+(10, 110, 10, '3', 'C', 2023);
