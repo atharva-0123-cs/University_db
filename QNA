@@ -1,0 +1,89 @@
+1)Find the unique dept_name of instructor 
+
+==== SELECT DISTINCT department  FROM Instructor; 
+
+2) display Cartesian product of relation instructor and teaches   
+
+=== select * from instructor ,teaches; 
+
+3) find name of all instructors in mechanical department who have salary >15000 
+
+=== SELECT name 
+
+FROM Instructor 
+
+WHERE department = 'mechanical' AND salary > 15000;  
+
+4)find names and course id of all instructor who have taught some course 
+
+===  
+
+SELECT I.name, T.course_id 
+
+FROM Instructor AS I 
+
+JOIN Teaches AS T ON I.instructor_id = T.id; 
+
+5)find all course though in semester 3 2020 
+
+=== SELECT C.title 
+
+FROM Course AS C 
+
+JOIN Section AS S ON C.course_id = S.course_id 
+
+WHERE S.semester = '3' AND S.year = 2020; 
+
+ 
+
+6)retrieve the names of all instructors along with their department name and building Name 
+
+=== SELECT I.name, I.department, D.building 
+
+FROM Instructor AS I 
+
+JOIN Department AS D where I.department = D.name; 
+
+7)find name of all departments whose building name include the substring include D1 
+
+=== select name from Department where  building like '%D1%'; 
+
+8)find name of all instructors in computer department in alphabetic order 
+
+=== SELECT name 
+
+FROM Instructor 
+
+WHERE department = 'computer' 
+
+ORDER BY name asc; 
+
+9) Find set of all courses thought either in 3rd semester  2022 or four semester 2023 are both includes duplicates 
+
+=== select course_id from Section where semester='3' and year=2022 
+
+union all 
+
+select course_id from section where semester='4' and year=2023 
+
+10) Find all courses thought in 3rd semester 2022 but not in 4th semester 2023 
+
+=== select course_id from Section where semester='3' and year=2022 
+
+and course_id NOT In(select course_id from section where semester='4' and year=2023) 
+
+11) Find the average salary of instructor in computer Department 
+
+=== SELECT AVG(salary) 
+
+FROM Instructor 
+
+WHERE department = 'computer'; 
+
+12) Find every salary in each department 
+
+=== SELECT department, AVG(salary)  
+
+FROM Instructor 
+
+GROUP BY department; 
